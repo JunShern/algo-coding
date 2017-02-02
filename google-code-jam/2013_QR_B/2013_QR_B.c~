@@ -1,0 +1,24 @@
+#include <stdio.h>
+
+int main(void) {
+
+	FILE *fin = fopen("B-small-practice.in", "r");
+	FILE *fout  = fopen("output.txt", "w");
+
+	int cases;
+	fscanf(fin, "%d\n", &cases);
+	
+	int c;
+	for (c=0; c<cases; c++) {
+		printf("Case #%d: ", c+1);
+		fprintf(fout, "Case #%d: ", c+1);
+		
+		// Get dimensions of the lawn
+		int n, m;
+		fscanf("%d\n", &n);
+		fscanf("%d\n", &m);
+		
+		// Read into arrays	
+	}
+	return 0;
+}

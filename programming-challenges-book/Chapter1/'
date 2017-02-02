@@ -1,0 +1,126 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+int length(int num) {
+	// Count the number of digits
+	int n_digits = 0;
+	while (num >= 1) {
+		num = num / 10; 
+		n_digits++;
+	}
+	return n_digits;
+}
+
+string make_linetype(int linetype, int s) {
+/* 
+	linetype:
+	0 "    "
+	1 " -- "
+	2 "|   "
+	3 "   |"
+	4 "|  |"
+*/
+	string str;
+	if (linetype == 0) {
+		str = ' ' + string(s, ' ') + ' ';
+	} else if (linetype == 1) {
+		str = ' ' + string(s, '-') + ' ';
+	} else if (linetype == 2) {
+		str = '|' + string(s, ' ') + ' ';
+	} else if (linetype == 3) {
+		str = ' ' + string(s, ' ') + '|';
+	} else if (linetype == 4) {
+		str = '|' + string(s, ' ') + '|';
+	} 
+
+	return str;
+}
+		
+void makeline(string number[], int linetypes[], int s) {
+	number[0] = make_linetype(linetypes[0], s);
+	for (int i = 1; i < s+1; i++) {
+		number[i] = make_linetype(linetypes[1], s);
+	}
+	number[s+1] = make_linetype(linetypes[3], s);
+	for (int i = s+2; i < 2*s+2; i++) {
+		number[i] = make_linetype(linetypes[4], s);
+	}
+	number[2*s+2] = make_linetype(linetypes[5], s);
+}
+
+void makeDigit(int num, string **number, int s) {
+	// Given an array of strings (number), fill each string with one line of the LCD digit representation
+	//int linetypes[5]; // Description of linetypes from top to bottom
+	if (num == 0) {
+		int linetypes[] = {1,4,0,4,1};
+		makeline(number[0], linetypes, s);
+	} else if (num == 1) { 
+		int linetypes[] = {0,3,0,3,0};
+		makeline(number[1], linetypes, s);
+	} else if (num == 2) { 
+		int linetypes[] = {1,3,1,2,1};
+		makeline(number[2], linetypes, s);
+	} else if (num == 3) { 
+		int linetypes[] = {1,3,1,3,1};
+		makeline(number[3], linetypes, s);
+	} else if (num == 4) { 
+		int linetypes[] = {0,4,1,3,0};
+		makeline(number[4], linetypes, s);
+	} else if (num == 5) { 
+		int linetypes[] = {1,2,1,3,1};
+		makeline(number[5], linetypes, s);
+	} else if (num == 6) { 
+		int linetypes[] = {1,2,1,4,1};
+		makeline(number[6], linetypes, s);
+	} else if (num == 7) { 
+		int linetypes[] = {1,3,0,3,0};
+		makeline(number[7], linetypes, s);
+	} else if (num == 8) { 
+		int linetypes[] = {1,4,1,4,1};
+		makeline(number[8], linetypes, s);
+	} else if (num == 9) { 
+		int linetypes[] = {1,4,1,3,1};
+		makeline(number[9], linetypes, s);
+	}
+	
+}
+
+int index(int num, int ind) {
+	// Test for index validity
+	if (ind >= length(num)) {
+		cout << "Array out of bounds" << endl;
+	}
+	return num / pow(10, length(num)-ind-1);
+}	
+	
+
+int main() {
+
+//	int s, num;
+//	while (cin >> s >> num) {
+//		for (int i = 0; i < 2*s+3; i++) {
+//			// Print line
+//		}	
+//	}	
+
+	int num = 123456789, s = 2;
+
+	// Make strings for all digits
+	string numbers[10][2*s + 3];
+	for (int n = 0; n < 10; n++) {
+		makeDigit(n, **numbers, s);
+	}
+	
+	// Print row by row
+	for (int line = 0; line < 2*s + 3; line++) {
+		for (int j = 0; j < length(num); j++) {
+			int digit = index(num, j);	
+			cout << numbers[digit][line] << " ";
+		}
+		cout << endl; // Go to next line
+	}
+
+	return 0;
+}
